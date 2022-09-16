@@ -4,8 +4,8 @@ import React from "react";
 import Typography from "../../atoms/typography";
 import theme from "../../../themes";
 export interface IconTypographyProps {
-  icon?: string;
-  text?: string;
+  icon: string;
+  text: string;
   selected: boolean;
   onClick?: () => void;
   id?: number;
