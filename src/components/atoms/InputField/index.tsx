@@ -31,9 +31,7 @@ const StyledTextField = styled((props: PropsType) => {
   if (props.startadornment === null || props.startadornment === undefined)
     return <TextField {...other} />;
   else if (
-    props.isReadonly === true &&
-    props.isReadonly !== undefined &&
-    props.isReadonly !== null
+    props.isReadonly === true
   )
     return (
       <TextField
