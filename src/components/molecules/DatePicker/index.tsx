@@ -7,9 +7,6 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { Grid, styled } from "@mui/material";
 
 interface DatePickerProps {
-  label: string;
-  id?: string;
-  date: Date;
   setChanged?: (item: any) => void;
   checkAll?: () => void;
 }

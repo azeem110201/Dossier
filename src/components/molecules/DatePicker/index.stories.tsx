@@ -11,7 +11,4 @@ const Template: ComponentStory<typeof ResponsiveDatePickers> = (args) => (
 );
 
 export const datePicker = Template.bind({});
-datePicker.args = {
-  label: "Year of joining",
-  date: new Date(),
-};
+datePicker.args = {};
