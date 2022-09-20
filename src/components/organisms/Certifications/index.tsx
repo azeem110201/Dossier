@@ -3,9 +3,8 @@ import styled from "@emotion/styled";
 import theme from "../../../themes";
 import { Box, Grid, Dialog } from "@mui/material";
 import Typography from "../../atoms/Typography";
-import Certificate1 from "../../../assets/images/Certificate1.svg";
-import Certificate2 from "../../../assets/images/Certificate2.svg";
 import UploadCertificate from "../UploadCertificate";
+import { certificates, certificatePageName } from "../../../utils/constants";
 
 export interface CertificateDetails {
   name: string;
@@ -20,15 +19,15 @@ export interface CertificateData {
 }
 
 const Container = styled(Box)({
-  width: 676,
-  height: 379,
+  width: '42.25rem',
+  height: '23.6875rem',
   boxShadow: `0px 2px 6px rgba(0, 0, 0, 0.2)`,
   backgroundColor: `${theme.palette.structural[50]}`,
 });
 
 const PageType = styled("div")({
-  width: 193,
-  height: 66,
+  width: '12.0625rem',
+  height: '4.125rem',
   textAlign: "center",
   marginLeft: "auto",
   marginBottom: "auto",
@@ -39,7 +38,7 @@ const PageType = styled("div")({
 const TypeTypography = styled("div")({
   textTransform: "uppercase",
   position: "relative",
-  top: 20,
+  top: '1.25rem',
 });
 
 const ImageContainer = styled(Grid)({
@@ -49,21 +48,22 @@ const ImageContainer = styled(Grid)({
   justifyContent: "space-evenly",
 });
 
+const GridContainer = styled(Grid)<{
+  activeIndex: number;
+  index: number;
+  open: boolean;
+}>(({ activeIndex, index, open }) => ({
+  border:
+    open && activeIndex === index
+      ? `1px dashed ${theme.palette.accent[800]}`
+      : `none`,
+  "&:hover": { cursor: "pointer" },
+}));
+
 const Certifications = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [activeIndex, setActiveIndex] = useState<number>(-1);
-  const [certificate, setCertificate] = useState<CertificateDetails[]>([
-    {
-      id: 0,
-      image: Certificate1,
-      name: "Certificate 1",
-    },
-    {
-      id: 1,
-      image: Certificate2,
-      name: "Certificate 2",
-    },
-  ]);
+  const [certificate, setCertificate] = useState<CertificateDetails[]>(certificates);
 
   const handleClose = () => {
     setOpen(!open);
@@ -100,23 +100,19 @@ const Certifications = () => {
         <PageType>
           <TypeTypography>
             <Typography variant="caption" color={theme.palette.structural[50]}>
-              Certifications
+              { certificatePageName }
             </Typography>
           </TypeTypography>
         </PageType>
         <ImageContainer>
           {certificate.map((certificate, index) => {
             return (
-              <Grid
+              <GridContainer
                 key={index}
                 onClick={() => handleCertificateModal(index)}
-                sx={{
-                  border:
-                    open && activeIndex === index
-                      ? `1px dashed ${theme.palette.accent[800]}`
-                      : `none`,
-                  "&:hover": { cursor: "pointer" },
-                }}
+                activeIndex
+                index
+                open
               >
                 <Typography
                   variant="body1"
@@ -125,7 +121,7 @@ const Certifications = () => {
                   {certificate.name}
                 </Typography>
                 <img src={certificate.image} alt="certificate" />
-              </Grid>
+              </GridContainer>
             );
           })}
         </ImageContainer>
