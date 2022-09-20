@@ -9,6 +9,8 @@ import { Grid, styled } from "@mui/material";
 interface DatePickerProps {
   setChanged?: (item: any) => void;
   checkAll?: () => void;
+  date: Date;
+  label: string;
 }
 
 const Container = styled(Grid)({
