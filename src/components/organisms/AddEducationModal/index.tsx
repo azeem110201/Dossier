@@ -34,6 +34,8 @@ export interface AddEducationModalProps {
   university: Options[];
   degree: Options[];
   fieldOfStudy: Options[];
+  setChanged?: (item: string) => void;
+  checkAll?: () => void;
 }
 
 export interface DialogTitleProps {
@@ -114,6 +116,23 @@ const AddEducationModal = (props: AddEducationModalProps) => {
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [submit, setSubmit] = useState<boolean>(false);
+
+  const [value, setValue] = React.useState<Date>();
+
+  const handleChange = (newValue: Date | null) => {
+    if (newValue) {
+      const dateValue =
+        newValue.getMonth() + 1 < 9
+          ? "0" + newValue.getMonth()
+          : newValue.getMonth();
+      const mmYY = dateValue + "/" + newValue.getFullYear();
+      setValue(newValue);
+      if (props.setChanged && props.checkAll) {
+        props.setChanged(mmYY);
+        props.checkAll();
+      }
+    }
+  };
 
   const checkAll = () => {
     if (
@@ -222,7 +241,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
                 <DatePicker>
                   <ResponsiveDatePickers
                     setChanged={setStartDate}
-                    date={ new Date() }
+                    date={ () => handleChange(new Date()) }
                     label="MM/YYYY"
                     checkAll={checkAll}
                   />
@@ -240,7 +259,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
                 </Box>
                 <ResponsiveDatePickers
                   setChanged={setEndDate}
-                  date={new Date()}
+                  date={ () => handleChange(new Date()) }
                   label="MM/YYYY"
                   checkAll={checkAll}
                 />
