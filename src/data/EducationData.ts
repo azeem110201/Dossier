@@ -40,3 +40,20 @@ export const fieldOfStudy = [
     title: "Business Administration & Management",
   },
 ];
+
+export const UNIVERSITY_ARRAY: Array<string> = [
+  "University of San Francisco",
+  "University of Memphis",
+  "University of Iowa",
+];
+export const DEGREE_ARRAY: Array<string> = [
+  "Bachelor of Business Administration",
+  "Bachelor of commerce",
+  "Bachelor of engineering",
+];
+
+export const FIELD_OF_STUDY: Array<string> = [
+  "Management of Information System",
+  "Marketing Management",
+  "Business Administration & Management",
+];
