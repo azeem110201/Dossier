@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
 import styled from "@emotion/styled";
 import IconTypography from "../../molecules/IconTypography";
 import theme from "../../../themes";
@@ -47,7 +46,7 @@ const Slider = (props: SliderProps) => {
     props.selected ? props.selected : 0
   );
 
-  const handleSelect = async (id: number) => {
+  const handleSelect = (id: number) => {
     setSelect(id);
     props.getSliderId(id);
   };
@@ -65,7 +64,7 @@ const Slider = (props: SliderProps) => {
           return (
             <div key={index} data-testid="icon-typo">
               <IconTypography
-                selected={select === index ? true : false}
+                selected={select === index}
                 key={index}
                 icon={slider.src}
                 text={slider.text}
@@ -81,7 +80,7 @@ const Slider = (props: SliderProps) => {
           return (
             <div key={index} data-testid="icon-typo">
               <IconTypography
-                selected={select === index ? true : false}
+                selected={select === index}
                 key={index}
                 icon={slider.src}
                 text={slider.text}
