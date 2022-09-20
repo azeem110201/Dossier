@@ -21,7 +21,15 @@ import {
   FIELD_OF_STUDY,
   UNIVERSITY_ARRAY,
 } from "../../../data/EducationData";
-import { educationModalText, universityNameText, degreeNameText, fieldOfStudyNameText, startYearText, endYearText, submitText } from "../../../data/constants";
+import {
+  educationModalText,
+  universityNameText,
+  degreeNameText,
+  fieldOfStudyNameText,
+  startYearText,
+  endYearText,
+  submitText,
+} from "../../../data/constants";
 
 export interface Options {
   icon?: string;
@@ -119,18 +127,17 @@ const AddEducationModal = (props: AddEducationModalProps) => {
 
   const [value, setValue] = React.useState<Date>();
 
-  const handleChange = (newValue: Date | null) => {
-    if (newValue) {
-      const dateValue =
-        newValue.getMonth() + 1 < 9
-          ? "0" + newValue.getMonth()
-          : newValue.getMonth();
-      const mmYY = dateValue + "/" + newValue.getFullYear();
-      setValue(newValue);
-      if (props.setChanged && props.checkAll) {
-        props.setChanged(mmYY);
-        props.checkAll();
-      }
+  const handleChange = () => {
+    const newValue = new Date();
+    const dateValue =
+      newValue.getMonth() + 1 < 9
+        ? "0" + newValue.getMonth()
+        : newValue.getMonth();
+    const mmYY = dateValue + "/" + newValue.getFullYear();
+    setValue(newValue);
+    if (props.setChanged && props.checkAll) {
+      props.setChanged(mmYY);
+      props.checkAll();
     }
   };
 
@@ -167,7 +174,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
         <Grid item>
           <Title>
             <Typography variant="body1" color={theme.palette.text.secondary}>
-              { educationModalText }
+              {educationModalText}
             </Typography>
             <CloseButton onClick={handleModal}>
               <CloseIcon />
@@ -183,7 +190,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
               color={theme.palette.text.secondary}
               sx={{ marginLeft: "10px" }}
             >
-              { universityNameText }
+              {universityNameText}
             </Typography>
             <AutoCompleteDropdown
               onChange={onUnviersityChange}
@@ -199,7 +206,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
                 color={theme.palette.text.secondary}
                 sx={{ marginLeft: "10px" }}
               >
-                { degreeNameText }
+                {degreeNameText}
               </Typography>
             </Box>
             <AutoCompleteDropdown
@@ -216,7 +223,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
                 color={theme.palette.text.secondary}
                 sx={{ marginLeft: "10px" }}
               >
-                { fieldOfStudyNameText }
+                {fieldOfStudyNameText}
               </Typography>
             </Box>
             <AutoCompleteDropdown
@@ -235,13 +242,13 @@ const AddEducationModal = (props: AddEducationModalProps) => {
                     color={theme.palette.text.secondary}
                     sx={{ marginLeft: "10px" }}
                   >
-                    { startYearText }
+                    {startYearText}
                   </Typography>
                 </Box>
                 <DatePicker>
                   <ResponsiveDatePickers
                     setChanged={setStartDate}
-                    date={ () => handleChange(new Date()) }
+                    date={() => handleChange()}
                     label="MM/YYYY"
                     checkAll={checkAll}
                   />
@@ -254,12 +261,12 @@ const AddEducationModal = (props: AddEducationModalProps) => {
                     color={theme.palette.text.secondary}
                     sx={{ marginLeft: "10px" }}
                   >
-                    { endYearText }
+                    {endYearText}
                   </Typography>
                 </Box>
                 <ResponsiveDatePickers
                   setChanged={setEndDate}
-                  date={ () => handleChange(new Date()) }
+                  date={() => handleChange()}
                   label="MM/YYYY"
                   checkAll={checkAll}
                 />
@@ -285,7 +292,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
           disabled={false}
           size="medium"
         >
-          { submitText }
+          {submitText}
         </Button>
       </DialogActionsContainer>
     </DialogContainer>
