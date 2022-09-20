@@ -125,22 +125,6 @@ const AddEducationModal = (props: AddEducationModalProps) => {
   const [endDate, setEndDate] = useState<string>("");
   const [submit, setSubmit] = useState<boolean>(false);
 
-  const [value, setValue] = React.useState<Date>();
-
-  const handleChange = () => {
-    const newValue = new Date();
-    const dateValue =
-      newValue.getMonth() + 1 < 9
-        ? "0" + newValue.getMonth()
-        : newValue.getMonth();
-    const mmYY = dateValue + "/" + newValue.getFullYear();
-    setValue(newValue);
-    if (props.setChanged && props.checkAll) {
-      props.setChanged(mmYY);
-      props.checkAll();
-    }
-  };
-
   const checkAll = () => {
     if (
       university != "" &&
@@ -152,15 +136,15 @@ const AddEducationModal = (props: AddEducationModalProps) => {
       setSubmit(true);
     }
   };
-  const onUnviersityChange = (newValue: any) => {
+  const onUnviersityChange = (newValue: React.ChangeEvent<HTMLInputElement>) => {
     setUniversity(newValue.target.outerText);
     checkAll();
   };
-  const onDegreeChange = (newValue: any) => {
+  const onDegreeChange = (newValue: React.ChangeEvent<HTMLInputElement>) => {
     setDegree(newValue.target.outerText);
     checkAll();
   };
-  const onFieldOfStudyChange = (newValue: any) => {
+  const onFieldOfStudyChange = (newValue: React.ChangeEvent<HTMLInputElement>) => {
     setFieldOfStudy(newValue.target.outerText);
     checkAll();
   };
@@ -248,7 +232,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
                 <DatePicker>
                   <ResponsiveDatePickers
                     setChanged={setStartDate}
-                    date={() => handleChange()}
+                    date={ new Date() }
                     label="MM/YYYY"
                     checkAll={checkAll}
                   />
@@ -266,7 +250,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
                 </Box>
                 <ResponsiveDatePickers
                   setChanged={setEndDate}
-                  date={() => handleChange()}
+                  date={ new Date() }
                   label="MM/YYYY"
                   checkAll={checkAll}
                 />
@@ -289,7 +273,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
             });
           }}
           variant="contained"
-          disabled={false}
+          disabled={!submit}
           size="medium"
         >
           {submitText}
