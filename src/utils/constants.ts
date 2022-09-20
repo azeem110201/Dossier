@@ -8,13 +8,13 @@ export const certificatePageName = 'Certifications';
 export const certificates = [
   {
     id: 0,
-    image: Certificate1,
-    name: "Certificate 1",
+    certificate_image: Certificate1,
+    certificate_name: "Certificate 1",
   },
   {
     id: 1,
-    image: Certificate2,
-    name: "Certificate 2",
+    certificate_image: Certificate2,
+    certificate_name: "Certificate 2",
   },
 ];
 

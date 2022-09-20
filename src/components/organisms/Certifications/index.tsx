@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import theme from "../../../themes";
 import { Box, Grid, Dialog } from "@mui/material";
 import Typography from "../../atoms/Typography";
 import UploadCertificate from "../UploadCertificate";
 import { certificates, certificatePageName } from "../../../utils/constants";
+import axios from "axios";
 
 export interface CertificateDetails {
-  name: string;
-  image: string;
+  certificate_name: string;
+  portfolio_id?: number;
+  certificate_image: string;
   id: number;
 }
 
@@ -75,17 +77,48 @@ const Certifications = () => {
     setActiveIndex(key);
   };
 
-  const getCertificateData = (item: CertificateData) => {
-    const data = {
-      id: activeIndex,
-      image: item.Image,
-      name: item.name,
+  const getBase64 = (file: any, cb: any) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      cb(reader.result);
     };
+  };
 
-    certificate[activeIndex] = data;
-    setCertificate(certificate);
+  const getCertificateInfo = async () => {
+    await axios
+      .get(`http://localhost:8000/certificates?portfolio_id=${1}`)
+      .then((response) => {
+        if (response.data.length !== 0) {
+          const data = response.data;
+          setCertificate(data);
+        } else {
+          setCertificate(certificates);
+        }
+      })
+  };
+
+  useEffect(() => {
+    getCertificateInfo();
+  }, [certificate.length]);
+
+  const getCertificateData = async (item: CertificateData) => {
+    getBase64(item.Image, async (result: string) => {
+      const itemData = {
+        id: activeIndex,
+        portfolio_id: 1,
+        certificate_image: result,
+        certificate_name: item.name,
+      };
+      certificate[activeIndex] = itemData;
+      setCertificate(certificate);
+      await axios.post(
+        `http://localhost:8000/certificates`,
+        itemData
+      );
+    });
+
     setOpen(!open);
-    setActiveIndex(-1);
   };
   return (
     <>
@@ -119,16 +152,16 @@ const Certifications = () => {
                   variant="body1"
                   color={theme.palette.structural[700]}
                 >
-                  {certificate.name}
+                  {certificate.certificate_name}
                 </Typography>
-                <img src={certificate.image} alt="certificate" />
+                <img src={certificate.certificate_image} alt="certificate" />
               </GridContainer>
             );
           })}
         </ImageContainer>
       </Container>
     </>
-  );
+  );name
 };
 
 export default Certifications;

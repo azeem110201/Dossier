@@ -162,7 +162,7 @@ const UploadCertificate = (props: UploadCertificateProps) => {
   const onSubmitPassData = () => {
     const item: CertificateDetails = {
       id: 0,
-      Image: localImage,
+      Image: fileName,
       name: certificate,
     };
     return props.onSubmit(item);
