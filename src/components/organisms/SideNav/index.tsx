@@ -12,8 +12,8 @@ interface SideNavProps {
 const Container = styled("div")({
   display: "flex",
   flexDirection: "column",
-  width: '6.25rem',
-  height: '44rem',
+  width: "6.25rem",
+  height: "44rem",
   backgroundColor: theme.palette.structural[50],
   gap: `1.25rem`,
   alignContent: "center",
@@ -23,15 +23,17 @@ const Container = styled("div")({
   paddingRight: 0,
 });
 
-const TemplateStyled = styled("div")<{ colored?: boolean }>(({ colored }) => ({
-  return colored ? {
-    backgroundColor: theme.palette.success.light,
-    color: theme.palette.primary.main,
-  } : {
-    backgroundColor: theme.palette.structural[50],
-    color: theme.palette.text.secondary,
-  }
-}));
+const TemplateStyled = styled("div")<{ colored: boolean }>(({ colored }) => {
+  return colored
+    ? {
+        backgroundColor: theme.palette.success.light,
+        color: theme.palette.primary.main,
+      }
+    : {
+        backgroundColor: theme.palette.structural[50],
+        color: theme.palette.text.secondary,
+      };
+});
 const SideNav = (props: SideNavProps) => {
   return (
     <Container data-testid="side-nav-bar">
@@ -39,7 +41,7 @@ const SideNav = (props: SideNavProps) => {
         return (
           <div key={index}>
             {index === 0 ? (
-              <TemplateStyled key={index} colored={true}>
+              <TemplateStyled key={index} colored>
                 <IconTypography
                   text={item.text}
                   icon={item.icon}
