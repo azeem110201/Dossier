@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Container } from "@mui/material";
 import React from "react";
-import Typography from "../../atoms/typography";
+import Typography from "../../atoms/Typography";
 import theme from "../../../themes";
 export interface IconTypographyProps {
   icon: string;
