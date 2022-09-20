@@ -20,6 +20,15 @@ import UploadMedia from "../../molecules/UploadMedia";
 import theme from "../../../themes/index";
 import UploadImage from "../../../assets/icons/upload.svg";
 import AddLink from "../../../assets/icons/addLink.png";
+import {
+  submitText,
+  nameOfTheCertificateText,
+  certificatePageName,
+  certificateText,
+  noResultText,
+  uploadText,
+  addLinkText,
+} from "../../../data/constants";
 
 export interface SubmitData {
   id: number;
@@ -42,7 +51,7 @@ const DialogContainer = styled(Dialog)({
 const Title = styled(Box)({
   display: "flex",
   height: "3.125rem",
-  boxShadow: "0px 2px 4px 0px #0000001F",
+  boxShadow: `0px 2px 4px 0px ${theme.palette.accent[400]}`,
   justifyContent: "space-between",
   alignItems: "center",
   paddingLeft: "0.75rem",
@@ -73,6 +82,29 @@ const CertificateDescription = styled(Grid)({
   marginTop: "2rem",
 });
 
+const OptionsContainer = styled(Grid)({
+  display: "flex",
+  flexDirection: "column",
+  gap: "1.25rem",
+  marginTop: "1rem",
+  justifyContent: "center",
+});
+
+const CloseIconContainer = styled(CloseIcon)({
+  position: "absolute",
+  paddingLeft: "-1px",
+  "&: hover": {
+    backgroundColor: theme.palette.structural[300],
+  },
+  cursor: "pointer",
+});
+
+const AddIconContainer = styled(AddIcon)({
+  color: "primary.main",
+  border: "1px dashed #4C2CD9",
+  borderRadius: "4px",
+});
+
 interface CertificateDetails {
   id: number;
   name: string;
@@ -92,14 +124,14 @@ const UploadCertificate = (props: UploadCertificateProps) => {
   const [submit, setSubmit] = useState<boolean>(false);
   const [showUploadOption, setShowUploadOption] = useState<boolean>(false);
   const [upload, setUpload] = useState<boolean>(false);
-  const [localImage, setlocalImage] = useState<any>();
+  const [localImage, setlocalImage] = useState<string>();
 
   const [open, setOpen] = useState<boolean>(true);
   const handleModal = () => {
     setOpen(!open);
   };
 
-  const showImage = (e: any) => {
+  const showImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData();
 
     formData.append("multipartFile", e.target.files[0]);
@@ -125,9 +157,18 @@ const UploadCertificate = (props: UploadCertificateProps) => {
     setSubmit(false);
     setlocalImage("");
   };
-  const [certificate, setCertificate] = useState("");
+  const [certificate, setCertificate] = useState<string>("");
   const onValueChange = (_e: SyntheticEvent, newValue: string) => {
     setCertificate(newValue);
+  };
+
+  const onSubmitPassData = () => {
+    const item: CertificateDetails = {
+      id: 0,
+      Image: localImage,
+      name: certificate,
+    };
+    return props.onSubmit(item);
   };
 
   return (
@@ -140,7 +181,7 @@ const UploadCertificate = (props: UploadCertificateProps) => {
         <Grid item>
           <Title>
             <Typography variant="body1" color={theme.palette.text.secondary}>
-              Add Certificate
+              {certificatePageName}
             </Typography>
             <CloseButton onClick={handleModal}>
               <CloseIcon />
@@ -149,16 +190,7 @@ const UploadCertificate = (props: UploadCertificateProps) => {
         </Grid>
       </DialogTitle>
       <DialogContent>
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-            marginTop: "1rem",
-            justifyContent: "center",
-          }}
-        >
+        <OptionsContainer container>
           <FormContainer item>
             <Box>
               <Typography
@@ -166,15 +198,15 @@ const UploadCertificate = (props: UploadCertificateProps) => {
                 color={theme.palette.text.secondary}
                 sx={{ marginLeft: "1rem" }}
               >
-                Name of the Certificate
+                {nameOfTheCertificateText}
               </Typography>
             </Box>
             <Autocomplete
               id="select-demo"
               data-testid="certificateChange"
               sx={{
-                height: "30px",
-                width: "624px",
+                height: "1.875rem",
+                width: "39rem",
                 borderRadius: "4px",
                 marginLeft: "0.8rem",
               }}
@@ -184,7 +216,7 @@ const UploadCertificate = (props: UploadCertificateProps) => {
                 onValueChange(event, newValue.label)
               }
               popupIcon={null}
-              noOptionsText={"No results found"}
+              noOptionsText={noResultText}
               getOptionLabel={(option) => option.label}
               renderOption={(prop, option) => (
                 <Box
@@ -194,9 +226,8 @@ const UploadCertificate = (props: UploadCertificateProps) => {
                 >
                   <img
                     loading="lazy"
-                    width="20"
-                    src={require(`../../../assets/images/logos/${option.img.toLowerCase()}.png`)}
-                    srcSet={`../../../assets/images/logos/${option.img.toLowerCase()}.png 2x`}
+                    width="1.25rem"
+                    src={`../../../assets/images/logos/${option.img.toLowerCase()}.png`}
                     alt=""
                   />
                   <Typography style={{ fontWeight: "normal" }}>
@@ -220,53 +251,38 @@ const UploadCertificate = (props: UploadCertificateProps) => {
           </FormContainer>
           <CertificateDescription>
             <Typography variant="caption3" color={theme.palette.text.primary}>
-              Add or link to external documents, photos, sites, videos, and
-              presentations. Learn more about media file types supported
+              {certificateText}
             </Typography>
           </CertificateDescription>
           <Grid item>
             {upload ? (
               <Box
                 sx={{
-                  marginTop: "30px",
+                  marginTop: "1.875rem",
                 }}
               >
                 <img
-                  width="124px"
-                  height="73px"
+                  width="7.75rem"
+                  height="4.56rem"
                   style={{ borderRadius: "10px" }}
                   src={localImage}
                 />
-                <CloseIcon
+                <CloseIconContainer
                   data-testid="canceluploadicon"
-                  sx={{
-                    position: "absolute",
-                    paddingLeft: "-1px",
-                    "&: hover": {
-                      backgroundColor: theme.palette.structural[300],
-                    },
-                    cursor: "pointer",
-                  }}
                   onClick={cancelUpload}
                 />
               </Box>
             ) : (
               <Box
                 sx={{
-                  marginTop: "30px",
+                  marginTop: "1.875rem",
                 }}
               >
                 <IconButton
                   data-testid="showOptionsTest"
                   onClick={() => showOptions()}
                 >
-                  <AddIcon
-                    sx={{
-                      color: "primary.main",
-                      border: "1px dashed #4C2CD9",
-                      borderRadius: "4px",
-                    }}
-                  />
+                  <AddIconContainer />
                 </IconButton>
                 <Box
                   data-testid="showImageTest"
@@ -277,8 +293,8 @@ const UploadCertificate = (props: UploadCertificateProps) => {
                     <UploadMedia
                       uploadImage={UploadImage}
                       addLink={AddLink}
-                      uploadText={"Upload Media"}
-                      addLinkText={"Add Link"}
+                      uploadText={uploadText}
+                      addLinkText={addLinkText}
                     />
                   )}
                 </Box>
@@ -295,24 +311,17 @@ const UploadCertificate = (props: UploadCertificateProps) => {
               />
             </Box>
           </Grid>
-        </Grid>
+        </OptionsContainer>
       </DialogContent>
       <DialogActionsContainer>
         <Button
           variant="contained"
-          onClick={() => {
-            const item: CertificateDetails = {
-              id: 0,
-              Image: localImage,
-              name: certificate,
-            };
-            return props.onSubmit(item);
-          }}
+          onClick={onSubmitPassData()}
           data-testid="UploadSubmitbutton"
           disabled={!submit}
           size="medium"
         >
-          Submit
+          {submitText}
         </Button>
       </DialogActionsContainer>
     </DialogContainer>
