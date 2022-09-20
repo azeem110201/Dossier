@@ -6,7 +6,7 @@ import Slider from "../Slider";
 import { sliderData } from "../../../data/SliderData";
 import Copy from "../../../assets/icons/copy_portfolio.svg";
 import Trash from "../../../assets/icons/trash_portfolio.svg";
-import EducationDetail from "../EducationDetails";
+import EducationDetail from "../EducationDetail";
 import Certifications from "../Certifications";
 import { draftButtonText, previewButtonText, publishButtonText, copyIconAlt, trashIconAlt } from "../../../utils/constants";
 
@@ -14,7 +14,7 @@ import { draftButtonText, previewButtonText, publishButtonText, copyIconAlt, tra
 const Container = styled(Grid)({
   display: "flex",
   flexDirection: "column",
-  gap: 32,
+  gap: `2rem`,
   alignItems: "center",
   margin: "auto",
   width: "60.625rem",
@@ -25,7 +25,7 @@ const Buttons = styled(Grid)({
   marginLeft: "auto",
   marginBottom: "auto",
   display: "flex",
-  gap: 12,
+  gap: '0.75rem',
 });
 
 const PortfolioIcons = styled(Grid)({

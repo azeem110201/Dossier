@@ -3,6 +3,7 @@ import Carousel from "react-multi-carousel";
 import styled from "@emotion/styled";
 import IconTypography from "../../molecules/IconTypography";
 import theme from "../../../themes";
+import "react-multi-carousel/lib/styles.css";
 
 export interface SliderDataProps {
   id: number;
