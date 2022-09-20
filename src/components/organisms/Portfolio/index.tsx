@@ -8,14 +8,16 @@ import Copy from "../../../assets/icons/copy_portfolio.svg";
 import Trash from "../../../assets/icons/trash_portfolio.svg";
 import EducationDetail from "../EducationDetails";
 import Certifications from "../Certifications";
+import { draftButtonText, previewButtonText, publishButtonText, copyIconAlt, trashIconAlt } from "../../../utils/constants";
+
 
 const Container = styled(Grid)({
   display: "flex",
   flexDirection: "column",
   gap: 32,
   alignItems: "center",
-  margin: 'auto',
-  width: '60.625rem',
+  margin: "auto",
+  width: "60.625rem",
 });
 
 const Buttons = styled(Grid)({
@@ -38,41 +40,32 @@ const Portfolio = () => {
   };
 
   const getSlideData = (id: number) => {
-    switch (id) {
-      case 2:
-        return (
-          <div id="screenshot">
-            <EducationDetail />
-          </div>
-        );
-
-      case 4:
-        return (
-          <div id="screenshot">
-            <Certifications />
-          </div>
-        );
+    if (id === 2) {
+      return <EducationDetail />;
+    }
+    else {
+      return <Certifications />;
     }
   };
   return (
     <Container data-testid="portfolio">
       <Buttons>
         <Button variant="text" disabled={false} size="large">
-          Preview
+          { previewButtonText }
         </Button>
         <Button variant="outlined" disabled={false} size="medium">
-          Save as Draft
+          { draftButtonText }
         </Button>
         <Button variant="contained" disabled={false} size="large">
-          Publish
+          { publishButtonText }
         </Button>
       </Buttons>
 
       {getSlideData(sliderId)}
 
       <PortfolioIcons data-testid="portfolio-icons">
-        <img src={Copy} alt="copy" />
-        <img src={Trash} alt="trash" />
+        <img src={Copy} alt={copyIconAlt} />
+        <img src={Trash} alt={trashIconAlt} />
       </PortfolioIcons>
 
       <Slider data={sliderData} getSliderId={getSliderId} />
