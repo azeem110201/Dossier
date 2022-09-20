@@ -24,10 +24,13 @@ const Container = styled("div")({
 });
 
 const TemplateStyled = styled("div")<{ colored?: boolean }>(({ colored }) => ({
-  backgroundColor: colored
-    ? theme.palette.success.light
-    : theme.palette.structural[50],
-  color: colored ? theme.palette.primary.main : theme.palette.text.secondary,
+  return colored ? {
+    backgroundColor: theme.palette.success.light,
+    color: theme.palette.primary.main,
+  } : {
+    backgroundColor: theme.palette.structural[50],
+    color: theme.palette.text.secondary,
+  }
 }));
 const SideNav = (props: SideNavProps) => {
   return (
