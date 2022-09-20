@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { Box, Grid, IconButton } from "@mui/material";
 import Typography from "../../atoms/Typography";
-import Masters from "../../../assets/icons/masters.svg";
 import AddEducation from "../AddEducation";
-import Graduates from "../../../assets/icons/graduates.svg";
 import theme from "../../../themes";
 import styled from "@emotion/styled";
 import {
@@ -11,6 +9,11 @@ import {
   fieldOfStudy,
   universityOptions,
 } from "../../../data/EducationData";
+import {
+  educationPage,
+  educationDetailsData,
+  notificationAlt,
+} from "../../../utils/constants";
 
 export interface EducationUniversityDetails {
   id: number;
@@ -31,15 +34,15 @@ export interface UniversityDetails {
 }
 
 const Container = styled(Box)({
-  width: 676,
-  height: 379,
+  width: "42.25rem",
+  height: "23.6875rem",
   boxShadow: `0px 2px 6px rgba(0, 0, 0, 0.2)`,
   backgroundColor: `${theme.palette.structural[50]}`,
 });
 
 const PageType = styled("div")({
-  width: 193,
-  height: 66,
+  width: "12.0625rem",
+  height: "4.125rem",
   textAlign: "center",
   marginLeft: "auto",
   marginBottom: "auto",
@@ -50,28 +53,48 @@ const PageType = styled("div")({
 const TypeTypography = styled("div")({
   textTransform: "uppercase",
   position: "relative",
-  top: 20,
+  top: "1.25rem",
 });
+
+const EducationContainer = styled(Grid)({
+  display: "flex",
+  flexDirection: "column",
+  marginLeft: "2rem",
+  gap: "1.25rem",
+});
+
+const IconButtonContainer = styled(IconButton)({
+  backgroundColor: theme.palette.structural[300],
+  borderRadius: "50%",
+  width: "4.375rem",
+  height: "4.375rem",
+});
+
+const EducationTextGrid = styled(Grid)({
+  display: "flex",
+  flexDirection: "column",
+});
+
+const SingleEducation = styled(Grid)<{
+  activeIndex: number;
+  index: number;
+  open: boolean;
+}>(({ activeIndex, index, open }) => ({
+  width: `21.875rem`,
+  display: "flex",
+  "&:hover": { cursor: "pointer" },
+  border:
+    index == activeIndex && open
+      ? `1px dashed ${theme.palette.accent[800]}`
+      : `none`,
+  gap: `1rem`,
+}));
 
 const EducationDetail = () => {
   const [open, setOpen] = useState<boolean>(false);
 
-  const [showUniversity, setShowUniversity] = useState<UniversityDetails[]>([
-    {
-      id: 0,
-      src: Masters,
-      name: "California Institute of Technology",
-      degree: "Master of science",
-      date: "2010-2012",
-    },
-    {
-      id: 1,
-      src: Graduates,
-      name: "University of Pennsylvannia",
-      degree: "Bachelors of science in Software Systems",
-      date: "2006-2010",
-    },
-  ]);
+  const [showUniversity, setShowUniversity] =
+    useState<UniversityDetails[]>(educationDetailsData);
 
   const handleClose = () => {
     setOpen(!open);
@@ -84,7 +107,6 @@ const EducationDetail = () => {
     setActiveIndex(key);
   };
   const setFormMethod = (obj: EducationUniversityDetails) => {
-    console.log(obj);
     const data = {
       id: activeIndex,
       src: obj.image,
@@ -111,52 +133,30 @@ const EducationDetail = () => {
         <PageType>
           <TypeTypography>
             <Typography variant="caption" color={theme.palette.structural[50]}>
-              Education Details
+              {educationPage}
             </Typography>
           </TypeTypography>
         </PageType>
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            marginLeft: "32px",
-            gap: "20px",
-          }}
-        >
+        <EducationContainer container>
           {showUniversity.map((university, index) => {
             return (
-              <Grid
+              <SingleEducation
                 item
+                activeIndex
+                index
+                open
                 key={index}
-                sx={{
-                  width: "350px",
-                  display: "flex",
-                  "&:hover": { cursor: "pointer" },
-                  border:
-                    index == activeIndex && open
-                      ? `1px dashed ${theme.palette.accent[800]}`
-                      : `none`,
-                  gap: `17px`,
-                }}
                 onClick={() => openAddEducation(index)}
               >
-                <IconButton
-                  sx={{
-                    backgroundColor: theme.palette.structural[300],
-                    borderRadius: "50%",
-                    width: "70px",
-                    height: "70px",
-                  }}
-                >
+                <IconButtonContainer>
                   <img
                     src={university.src}
-                    alt="notification"
-                    width="20px"
-                    height="30px"
+                    alt={notificationAlt}
+                    width="1.25rem"
+                    height="1.875rem"
                   />
-                </IconButton>
-                <Grid item sx={{ display: "flex", flexDirection: "column" }}>
+                </IconButtonContainer>
+                <EducationTextGrid item>
                   <Typography
                     variant="body1"
                     color={theme.palette.structural[700]}
@@ -175,11 +175,11 @@ const EducationDetail = () => {
                   >
                     {university.date}
                   </Typography>
-                </Grid>
-              </Grid>
+                </EducationTextGrid>
+              </SingleEducation>
             );
           })}
-        </Grid>
+        </EducationContainer>
       </Container>
     </>
   );
