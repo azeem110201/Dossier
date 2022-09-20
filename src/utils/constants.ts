@@ -20,3 +20,8 @@ export const educationDetailsData = [
     date: "2006-2010",
   },
 ];
+export const previewButtonText = 'Preview';
+export const draftButtonText = 'Save as Draft';
+export const publishButtonText = 'Publish';
+export const copyIconAlt = 'Copy';
+export const trashIconAlt = 'Trash';
