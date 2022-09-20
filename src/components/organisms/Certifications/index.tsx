@@ -85,6 +85,7 @@ const Certifications = () => {
     certificate[activeIndex] = data;
     setCertificate(certificate);
     setOpen(!open);
+    setActiveIndex(-1);
   };
   return (
     <>
@@ -110,8 +111,8 @@ const Certifications = () => {
               <GridContainer
                 key={index}
                 onClick={() => handleCertificateModal(index)}
-                activeIndex
-                index
+                activeIndex={activeIndex}
+                index={index}
                 open
               >
                 <Typography
