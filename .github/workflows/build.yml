@@ -7,13 +7,13 @@ on:
     branches: [main]
     types: [opened, synchronize]
     paths:
-      - "frontend/**"
+      - "./"
 jobs:
   sonar-frontend:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: "./frontend/"
+        working-directory: "./"
     strategy:
       matrix:
         node-version: [16.x]
@@ -33,7 +33,7 @@ jobs:
         run: npm test
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
+        frontend/**uses: sonarsource/sonarcloud-github-action@master
         with:
           projectBaseDir: ./frontend
         env:
