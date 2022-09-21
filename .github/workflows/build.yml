@@ -7,24 +7,6 @@ on:
     branches: [master]
     types: [opened, synchronize, reopened]
 jobs:
-  storybook:
-    name: storybook deployment
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: Install Packages
-        run: npm install --legacy-peer-deps
-      - name: Build Story Book
-        run: npm run build-storybook
-      - name: Deploy  StoryBook
-        run: npm run chromatic
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   sonarcloud:
     name: SonarCloud
     runs-on: self-hosted
