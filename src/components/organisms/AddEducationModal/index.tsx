@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Box,
   Dialog,
@@ -8,7 +9,7 @@ import {
   IconButton,
   styled,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import theme from "../../../themes";
 import Typography from "../../atoms/Typography";
 import CloseIcon from "@mui/icons-material/Close";
@@ -16,11 +17,6 @@ import AutoCompleteDropdown from "./AutoCompleteDropdown";
 import ResponsiveDatePickers from "../../molecules/DatePicker";
 import Button from "../../atoms/Buttons";
 import { getImageSrc } from "../../../utils/mapperFunction";
-import {
-  DEGREE_ARRAY,
-  FIELD_OF_STUDY,
-  UNIVERSITY_ARRAY,
-} from "../../../data/EducationData";
 import {
   educationModalText,
   universityNameText,
@@ -30,10 +26,27 @@ import {
   endYearText,
   submitText,
 } from "../../../data/constants";
+import axios from "axios";
 
 export interface Options {
   icon?: string;
   title: string;
+}
+
+export interface UniversityInterface {
+  id: number;
+  university_name: string;
+  university_image: string;
+}
+
+export interface DegreeInterface {
+  id: number;
+  university_name: string;
+}
+
+export interface FieldOfStudyInterface {
+  id: number;
+  field_of_study_name: string;
 }
 
 export interface AddEducationModalProps {
@@ -125,6 +138,10 @@ const AddEducationModal = (props: AddEducationModalProps) => {
   const [endDate, setEndDate] = useState<string>("");
   const [submit, setSubmit] = useState<boolean>(false);
 
+  const [universityData, setUniversityData] = useState<string[]>([]);
+  const [degreeData, setDegreeData] = useState<string[]>([]);
+  const [fieldOfStudyData, setFieldOfStudyData] = useState<string[]>([]);
+
   const checkAll = () => {
     if (
       university != "" &&
@@ -148,6 +165,42 @@ const AddEducationModal = (props: AddEducationModalProps) => {
     setFieldOfStudy(newValue.target.outerText);
     checkAll();
   };
+
+  const getUniversityData = async () => {
+    await axios.get(`http://localhost:8000/university`).then((response) => {
+      response.data.map((data: UniversityInterface) => {
+        if(data.id >= 3) {
+          universityData?.push(data.university_name)
+        }
+      })
+      setUniversityData(universityData);
+    })
+  }
+
+  const getDegreeData = async () => {
+    await axios.get(`http://localhost:8000/degree`).then((response) => {
+      response.data.map((data: DegreeInterface) => {
+        degreeData?.push(data.university_name)
+      })
+      setDegreeData(degreeData);
+    })
+  }
+
+  const getFieldData = async () => {
+    await axios.get(`http://localhost:8000/field_of_study`).then((response) => {
+      response.data.map((data: FieldOfStudyInterface) => {
+        fieldOfStudyData?.push(data.field_of_study_name)
+      })
+      setFieldOfStudyData(fieldOfStudyData);
+    })
+  }
+
+  useEffect(() => {
+    getUniversityData();
+    getDegreeData();
+    getFieldData();
+  },[]);
+
   return (
     <DialogContainer
       onClose={handleModal}
@@ -180,7 +233,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
               onChange={onUnviersityChange}
               label="Search University Here"
               data-testid="unviersityChange"
-              item_array={UNIVERSITY_ARRAY}
+              item_array={universityData}
             />
           </FormContainer>
           <FormContainer item>
@@ -197,7 +250,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
               onChange={onDegreeChange}
               label="Search Degree Here"
               data-testid="degreeChange"
-              item_array={DEGREE_ARRAY}
+              item_array={degreeData}
             />
           </FormContainer>
           <FormContainer item>
@@ -214,7 +267,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
               onChange={onFieldOfStudyChange}
               label="Search Field Here"
               data-testid="fieldChange"
-              item_array={FIELD_OF_STUDY}
+              item_array={fieldOfStudyData}
             />
           </FormContainer>
           <FormContainer item>

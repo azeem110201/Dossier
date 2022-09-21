@@ -65,7 +65,7 @@ const GridContainer = styled(Grid)<{
 const Certifications = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [activeIndex, setActiveIndex] = useState<number>(-1);
-  const [certificate, setCertificate] =
+  const [certificate, setData] =
     useState<CertificateDetails[]>(certificates);
 
   const handleClose = () => {
@@ -91,9 +91,9 @@ const Certifications = () => {
       (response) => {
         if (response.data.length !== 0) {
           const data = response.data;
-          setCertificate(data);
+          setData(data);
         } else {
-          setCertificate(certificates);
+          setData(certificates);
         }
       }
     );
@@ -112,7 +112,9 @@ const Certifications = () => {
         certificate_name: item.name,
       };
       certificate[activeIndex] = itemData;
-      setCertificate(certificate);
+      setData(() => {
+        return certificate;
+      });
       await CertificateService.postCertificate(itemData);
     });
 
@@ -160,7 +162,6 @@ const Certifications = () => {
       </Container>
     </>
   );
-  name;
 };
 
 export default Certifications;

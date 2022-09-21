@@ -115,7 +115,9 @@ const EducationDetail = () => {
       date: `${obj.startDate.split("/")[1]} - ${obj.endDate.split("/")[1]}`,
     };
     showUniversity[activeIndex] = data;
-    setShowUniversity(showUniversity);
+    setShowUniversity(() => {
+      return showUniversity;
+    });
     setOpen(!open);
     setActiveIndex(-1);
   };
