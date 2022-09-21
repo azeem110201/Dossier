@@ -26,7 +26,7 @@ import {
   endYearText,
   submitText,
 } from "../../../data/constants";
-import axios from "axios";
+import { EducationService } from "../../../service/EducationService";
 
 export interface Options {
   icon?: string;
@@ -167,7 +167,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
   };
 
   const getUniversityData = async () => {
-    await axios.get(`http://localhost:8000/university`).then((response) => {
+    await EducationService.getUniversity().then((response) => {
       response.data.map((data: UniversityInterface) => {
         if(data.id >= 3) {
           universityData?.push(data.university_name)
@@ -178,7 +178,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
   }
 
   const getDegreeData = async () => {
-    await axios.get(`http://localhost:8000/degree`).then((response) => {
+    await EducationService.getDegree().then((response) => {
       response.data.map((data: DegreeInterface) => {
         degreeData?.push(data.university_name)
       })
@@ -187,7 +187,7 @@ const AddEducationModal = (props: AddEducationModalProps) => {
   }
 
   const getFieldData = async () => {
-    await axios.get(`http://localhost:8000/field_of_study`).then((response) => {
+    await EducationService.getFieldOfStudy().then((response) => {
       response.data.map((data: FieldOfStudyInterface) => {
         fieldOfStudyData?.push(data.field_of_study_name)
       })
