@@ -1,19 +1,22 @@
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import React from "react";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import MoleculeInfographics from ".";
+import Infographics from "./index";
 import { images, SearchIcon } from "../../../data/InfographicsImages";
 
-export default {
-  title: "Molecules/Infographics",
-  component: MoleculeInfographics,
-} as ComponentMeta<typeof MoleculeInfographics>;
+test("Should contain a Searchbar component in this component ", () => {
+  render(
+    <Infographics images={images} searchIcon={SearchIcon}/>
+  );
+  const searchBar = screen.getByPlaceholderText("Search here");
+  expect(searchBar).toBeInTheDocument();
+});
 
-const Template: ComponentStory<typeof MoleculeInfographics> = (args) => (
-  <MoleculeInfographics {...args} />
-);
 
-export const infographics = Template.bind({});
-infographics.args = {
-    images: images,
-    searchIcon: SearchIcon,
-}
+test("Should contain all template images in the component", () => {
+  render(
+    <Infographics images={images} searchIcon={SearchIcon}/>
+  );
+  const searchBar = screen.getAllByAltText("template-image");
+  expect(searchBar.length).toBe(4);
+});
