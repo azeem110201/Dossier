@@ -2,40 +2,47 @@ name: Github actions for Front End PR's and Pushes
 
 on:
   push:
-    branches: "**"
+    branches: "master"
   pull_request:
-    branches: [main]
-    types: [opened, synchronize]
-    paths:
-      - "./"
+    branches: [master]
+    types: [opened, synchronize, reopened]
 jobs:
-  sonar-frontend:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "./"
-    strategy:
-      matrix:
-        node-version: [16.x]
-
+  storybook:
+    name: storybook deployment
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install npm dependency
-        run: npm install
-      - name: Build npm project
-        run: npm run build --if-present
-
-      - name: Run tests
-        run: npm test
-
-      - name: SonarCloud Scan
-        frontend/**uses: sonarsource/sonarcloud-github-action@master
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - uses: actions/setup-node@v3
         with:
-          projectBaseDir: ./frontend
+          node-version: 16
+      - name: Install Packages
+        run: npm install --legacy-peer-deps
+      - name: Build Story Book
+        run: npm run build-storybook
+      - name: Deploy  StoryBook
+        run: npm run chromatic
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+  sonarcloud:
+    name: SonarCloud
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+      - name: Run Tests
+        run: npm run test
+      - name: SonarCloud Scan.
+        with:
+          projectBaseDir: frontend
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
