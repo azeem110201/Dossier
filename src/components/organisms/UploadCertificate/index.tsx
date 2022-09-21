@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { SyntheticEvent, useState } from "react";
+import React, { BaseSyntheticEvent, SyntheticEvent, useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import Button from "../../atoms/Buttons";
 import AddIcon from "@mui/icons-material/Add";
@@ -120,14 +120,14 @@ const UploadCertificate = (props: UploadCertificateProps) => {
   const [submit, setSubmit] = useState<boolean>(false);
   const [showUploadOption, setShowUploadOption] = useState<boolean>(false);
   const [upload, setUpload] = useState<boolean>(false);
-  const [localImage, setlocalImage] = useState<any>();
+  const [localImage, setlocalImage] = useState<string>();
   const [fileName, setFileName] = useState<string>("");
   const [open, setOpen] = useState<boolean>(true);
   const handleModal = () => {
     setOpen(!open);
   };
 
-  const showImage = (e: any) => {
+  const showImage = (e: BaseSyntheticEvent) => {
     const formData = new FormData();
 
     formData.append("multipartFile", e.target.files[0]);

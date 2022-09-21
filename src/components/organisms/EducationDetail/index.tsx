@@ -117,6 +117,7 @@ const EducationDetail = () => {
     showUniversity[activeIndex] = data;
     setShowUniversity(showUniversity);
     setOpen(!open);
+    setActiveIndex(-1);
   };
   return (
     <>
@@ -142,7 +143,7 @@ const EducationDetail = () => {
             return (
               <SingleEducation
                 item
-                activeIndex={index}
+                activeIndex={activeIndex}
                 index={index}
                 open
                 key={index}
@@ -152,8 +153,8 @@ const EducationDetail = () => {
                   <img
                     src={university.src}
                     alt={notificationAlt}
-                    width="1.25rem"
-                    height="1.875rem"
+                    width="20px"
+                    height="30px"
                   />
                 </IconButtonContainer>
                 <EducationTextGrid item>
