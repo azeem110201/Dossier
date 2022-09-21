@@ -78,7 +78,7 @@ const Certifications = () => {
     setActiveIndex(key);
   };
 
-  const getBase64 = (file: any, cb: any) => {
+  const getBase64 = (file: string, cb: Object) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function () {
