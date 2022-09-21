@@ -7,6 +7,11 @@ interface AccentColor extends PaletteColor {
   "100": string;
   "200": string;
   "300": string;
+  "400": string;
+  "500": string;
+  "600": string;
+  "700": string;
+  "800": string;
 }
 interface StructuralColor {
   "50": string;
@@ -15,13 +20,18 @@ interface StructuralColor {
   "400": string;
   "500": string;
   "600": string;
+  "700": string;
 }
 declare module "@mui/material/styles/createPalette" {
   interface Palette {
+    label: PaletteColor;
+    boxShadow: PaletteColor;
     accent: AccentColor;
     structural: StructuralColor;
   }
   interface PaletteOptions {
+    label: PaletteColorOptions;
+    boxShadow: PaletteColorOptions;
     accent: AccentColor;
     structural?: StructuralColor;
   }
@@ -31,18 +41,18 @@ declare module "@mui/material/styles" {
     title: React.CSSProperties;
     caption2: React.CSSProperties;
     caption3: React.CSSProperties;
-    caption4?: React.CSSProperties;
+    caption4: React.CSSProperties;
     overline2: React.CSSProperties;
     overline1: React.CSSProperties;
   }
 
   interface TypographyVariantsOptions {
-    title?: React.CSSProperties;
-    caption2?: React.CSSProperties;
-    caption3?: React.CSSProperties;
-    caption4?: React.CSSProperties;
-    overline2?: React.CSSProperties;
-    overline1?: React.CSSProperties;
+    title: React.CSSProperties;
+    caption2: React.CSSProperties;
+    caption3: React.CSSProperties;
+    caption4: React.CSSProperties;
+    overline2: React.CSSProperties;
+    overline1: React.CSSProperties;
   }
 }
 
@@ -70,37 +80,54 @@ const theme = createTheme({
       "100": "#F3F2F7",
       "200": "#D4D2D9",
       "300": "#9F9DA6",
-      "400": "#6D6C73",
+      "500": "#6D6C73",
+      "700": "#3C3B40",
+      "800": "#E5E5E5",
     },
     success: {
       main: "#1D8651",
       light: "#EEEBFF",
     },
+    error: {
+      main: "#FC5C5C",
+    },
     accent: {
-      main: "#429DDF",
-      light: "FF6161",
-      dark: "#7E64F3",
-      contrastText: "#A595EC",
-      "100": "#8FC9CC",
-      "200": "#FFC803",
-      "300": "#7E64F3",
+      main: "rgba(66, 157, 223, 0.5)",
+      light: "rgba(66, 157, 223, 0.75)",
+      dark: "#1FC9FF",
+      contrastText: "#FFB8B8",
+      "100": "#FC90C2",
+      "200": "#FF6161",
+      "300": "rgba(0, 0, 0, 0.2)",
+      "400": `#E9E8ED80`,
+      "500": "#707C91",
+      "600": "#8FC9CC",
+      "700": "#FFC803",
+      "800": "#7E64F3",
     },
     structural: {
       "50": " #FFFFFF",
-      "100": "#FFFDFD",
+      "100": "#FAFAFA",
       "300": "#F7F5FF",
       "400": "#FDFAFF",
       "500": "#EEEBFF",
       "600": "#6200EE",
+      "700": "#2C2937",
     },
     text: {
       primary: "#2C2937",
       secondary: "#5A5766",
       disabled: "#817E8C",
     },
+    label: {
+      main: "#FFFDFD",
+    },
+    boxShadow: {
+      main: "rgba(0, 0, 0, 0.2)",
+    },
   },
   typography: {
-    fontFamily: "Roboto",
+    fontFamily: ['Roboto', ['Roboto', 'sans-serif'].join(','),'sans-serif'].join(','),
     button: {
       fontStyle: "normal",
       fontWeight: 600,
