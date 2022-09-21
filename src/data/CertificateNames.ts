@@ -16,3 +16,9 @@ export const certificateNames = [
     icon: Lowa,
   },
 ];
+
+export const data = [
+  { title: "Awards" },
+  { title: "Certificate" },
+  { title: "Education" },
+];
