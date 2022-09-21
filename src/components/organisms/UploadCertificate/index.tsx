@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { SyntheticEvent, useState } from "react";
 import IconButton from "@mui/material/IconButton";
-import Button from "../../atoms/buttons/index";
+import Button from "../../atoms/Buttons";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -29,6 +29,7 @@ import {
   uploadText,
   addLinkText,
 } from "../../../data/constants";
+import { certificatesData } from "../../../data/CertificatesData";
 
 export interface SubmitData {
   id: number;
@@ -110,11 +111,6 @@ interface CertificateDetails {
   name: string;
   Image: string;
 }
-const certificates = [
-  { label: "Project Management Professional (PMP)", img: "project" },
-  { label: "Health Care IT Certification", img: "health" },
-  { label: "Program Management Professional(PgMP)", img: "program" },
-];
 
 interface UploadCertificateProps {
   onSubmit: (item: CertificateDetails) => void;
@@ -124,17 +120,18 @@ const UploadCertificate = (props: UploadCertificateProps) => {
   const [submit, setSubmit] = useState<boolean>(false);
   const [showUploadOption, setShowUploadOption] = useState<boolean>(false);
   const [upload, setUpload] = useState<boolean>(false);
-  const [localImage, setlocalImage] = useState<string>();
-
+  const [localImage, setlocalImage] = useState<any>();
+  const [fileName, setFileName] = useState<string>("");
   const [open, setOpen] = useState<boolean>(true);
   const handleModal = () => {
     setOpen(!open);
   };
 
-  const showImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const showImage = (e: any) => {
     const formData = new FormData();
 
     formData.append("multipartFile", e.target.files[0]);
+    setFileName(e.target.files[0]);
     setlocalImage(URL.createObjectURL(e.target.files[0]));
     setUpload(true);
 
@@ -205,12 +202,12 @@ const UploadCertificate = (props: UploadCertificateProps) => {
               id="select-demo"
               data-testid="certificateChange"
               sx={{
-                height: "1.875rem",
-                width: "39rem",
+                height: "30px",
+                width: "624px",
                 borderRadius: "4px",
                 marginLeft: "0.8rem",
               }}
-              options={certificates}
+              options={certificatesData}
               disableClearable
               onChange={(event, newValue) =>
                 onValueChange(event, newValue.label)
@@ -226,8 +223,9 @@ const UploadCertificate = (props: UploadCertificateProps) => {
                 >
                   <img
                     loading="lazy"
-                    width="1.25rem"
-                    src={`../../../assets/images/logos/${option.img.toLowerCase()}.png`}
+                    width="20"
+                    src={option.img}
+                    srcSet={option.img}
                     alt=""
                   />
                   <Typography style={{ fontWeight: "normal" }}>
@@ -262,8 +260,8 @@ const UploadCertificate = (props: UploadCertificateProps) => {
                 }}
               >
                 <img
-                  width="7.75rem"
-                  height="4.56rem"
+                  width="124px"
+                  height="73px"
                   style={{ borderRadius: "10px" }}
                   src={localImage}
                 />
@@ -316,7 +314,7 @@ const UploadCertificate = (props: UploadCertificateProps) => {
       <DialogActionsContainer>
         <Button
           variant="contained"
-          onClick={onSubmitPassData()}
+          onClick={() => onSubmitPassData()}
           data-testid="UploadSubmitbutton"
           disabled={!submit}
           size="medium"

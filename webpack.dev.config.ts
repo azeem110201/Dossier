@@ -35,10 +35,8 @@ const config: Configuration = {
         },
       },
       {
-        test: /\.(sass|less|css)$/,
-        use: {
-          loader: "css-loader",
-        },
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(png|jpe?g|svg|gif)$/i,

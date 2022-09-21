@@ -1,5 +1,7 @@
 import Certificate1 from "../assets/images/Certificate1.svg";
 import Certificate2 from "../assets/images/Certificate2.svg";
+import Masters from "../assets/icons/masters.svg";
+import Graduates from "../assets/icons/graduates.svg";
 
 export const certificatePageName = 'Certifications';
 
@@ -15,9 +17,6 @@ export const certificates = [
     name: "Certificate 2",
   },
 ];
-
-import Masters from "../assets/icons/masters.svg";
-import Graduates from "../../../assets/icons/graduates.svg";
 
 export const educationPage = "Education Details";
 export const notificationAlt = 'Notification';

@@ -3,11 +3,13 @@ import Carousel from "react-multi-carousel";
 import styled from "@emotion/styled";
 import IconTypography from "../../molecules/IconTypography";
 import theme from "../../../themes";
+import "react-multi-carousel/lib/styles.css";
+import { sliderData } from "../../../data/SliderData";
 
 export interface SliderDataProps {
   id: number;
   src: string;
-  text?: string;
+  text: string;
   selected: boolean;
 }
 
@@ -59,8 +61,8 @@ const Slider = (props: SliderProps) => {
       slidesToSlide={3}
       data-testid="slider"
     >
-      {props.data.map((slider: SliderDataProps, index) => {
-        if (index !== props.data.length - 1) {
+      {sliderData.map((slider: SliderDataProps, index) => {
+        if (index !== sliderData.length - 1) {
           return (
             <div key={index} data-testid="icon-typo">
               <IconTypography
@@ -75,8 +77,8 @@ const Slider = (props: SliderProps) => {
           );
         }
       })}
-      {props.data.map((slider: SliderDataProps, index) => {
-        if (index === props.data.length - 1) {
+      {sliderData.map((slider: SliderDataProps, index) => {
+        if (index === sliderData.length - 1) {
           return (
             <div key={index} data-testid="icon-typo">
               <IconTypography

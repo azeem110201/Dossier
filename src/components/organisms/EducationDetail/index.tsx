@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Grid, IconButton } from "@mui/material";
 import Typography from "../../atoms/Typography";
-import AddEducation from "../AddEducation";
+import AddEducation from "../AddEducationModal";
 import theme from "../../../themes";
 import styled from "@emotion/styled";
 import {
@@ -142,8 +142,8 @@ const EducationDetail = () => {
             return (
               <SingleEducation
                 item
-                activeIndex
-                index
+                activeIndex={index}
+                index={index}
                 open
                 key={index}
                 onClick={() => openAddEducation(index)}
