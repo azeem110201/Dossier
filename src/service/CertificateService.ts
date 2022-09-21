@@ -2,7 +2,6 @@ import { CertificateDetails } from './../components/organisms/Certifications/ind
 import Axios from 'axios';
 import { properties } from '../utils/properties';
 const URL = properties.certificateURL;
-const UserURL = properties.certificateUserURL;
 
 export class CertificateService {
   static getCertificates = () => {
@@ -10,10 +9,10 @@ export class CertificateService {
   }
 
   static getCertificatesByPortfolioId = (id: number) => {
-    return Axios.get(UserURL + id);
+    return Axios.get(`${URL}/certificates?portfolio_id=` + id);
   }
 
   static postCertificate = (certificate: CertificateDetails) => {
-    return Axios.post(URL, certificate);
+    return Axios.post(`${URL}/certificates`, certificate);
   }
 }
