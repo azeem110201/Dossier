@@ -5,7 +5,7 @@ import { Box, Grid, Dialog } from "@mui/material";
 import Typography from "../../atoms/Typography";
 import UploadCertificate from "../UploadCertificate";
 import { certificates, certificatePageName } from "../../../utils/constants";
-import axios from "axios";
+import { CertificateService } from "../../../service/CertificateService";
 
 export interface CertificateDetails {
   certificate_name: string;
@@ -21,15 +21,15 @@ export interface CertificateData {
 }
 
 const Container = styled(Box)({
-  width: '42.25rem',
-  height: '23.6875rem',
+  width: "42.25rem",
+  height: "23.6875rem",
   boxShadow: `0px 2px 6px rgba(0, 0, 0, 0.2)`,
   backgroundColor: `${theme.palette.structural[50]}`,
 });
 
 const PageType = styled("div")({
-  width: '12.0625rem',
-  height: '4.125rem',
+  width: "12.0625rem",
+  height: "4.125rem",
   textAlign: "center",
   marginLeft: "auto",
   marginBottom: "auto",
@@ -40,7 +40,7 @@ const PageType = styled("div")({
 const TypeTypography = styled("div")({
   textTransform: "uppercase",
   position: "relative",
-  top: '1.25rem',
+  top: "1.25rem",
 });
 
 const ImageContainer = styled(Grid)({
@@ -65,7 +65,8 @@ const GridContainer = styled(Grid)<{
 const Certifications = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [activeIndex, setActiveIndex] = useState<number>(-1);
-  const [certificate, setCertificate] = useState<CertificateDetails[]>(certificates);
+  const [certificate, setCertificate] =
+    useState<CertificateDetails[]>(certificates);
 
   const handleClose = () => {
     setOpen(!open);
@@ -86,16 +87,16 @@ const Certifications = () => {
   };
 
   const getCertificateInfo = async () => {
-    await axios
-      .get(`http://localhost:8000/certificates?portfolio_id=${1}`)
-      .then((response) => {
+    await CertificateService.getCertificatesByPortfolioId(1).then(
+      (response) => {
         if (response.data.length !== 0) {
           const data = response.data;
           setCertificate(data);
         } else {
           setCertificate(certificates);
         }
-      })
+      }
+    );
   };
 
   useEffect(() => {
@@ -112,10 +113,7 @@ const Certifications = () => {
       };
       certificate[activeIndex] = itemData;
       setCertificate(certificate);
-      await axios.post(
-        `http://localhost:8000/certificates`,
-        itemData
-      );
+      await CertificateService.postCertificate(itemData);
     });
 
     setOpen(!open);
@@ -134,7 +132,7 @@ const Certifications = () => {
         <PageType>
           <TypeTypography>
             <Typography variant="caption" color={theme.palette.structural[50]}>
-              { certificatePageName }
+              {certificatePageName}
             </Typography>
           </TypeTypography>
         </PageType>
@@ -161,7 +159,8 @@ const Certifications = () => {
         </ImageContainer>
       </Container>
     </>
-  );name
+  );
+  name;
 };
 
 export default Certifications;
