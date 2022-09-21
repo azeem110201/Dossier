@@ -75,6 +75,7 @@
     "fork-ts-checker-webpack-plugin": "^7.2.13",
     "html-webpack-plugin": "^5.5.0",
     "husky": "8.0.1",
+    "jest": "28.1.0",
     "jest-diff": "28.1.0",
     "jest-environment-jsdom": "28.1.1",
     "jest-fetch-mock": "3.0.3",
